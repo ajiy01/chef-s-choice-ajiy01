@@ -1,0 +1,85 @@
+---
+title: "Project 1"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(dplyr)
+
+```
+
+```{r}
+crime <- read_csv("data/us_crime_rates.csv")
+crime
+
+```
+
+
+```{r}
+crime %>%
+  ggplot(aes(x=year, y=total)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Total Number of Crimes by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+
+```
+
+```{r}
+#crime1 <- data.frame(x=crime$year,
+                #y = c(crime$violent, crime$property),
+                #group = c(rep("violent", ncol(crime)),
+                          #rep("property", ncol(crime))))
+
+#ggplot(crime1, aes(x,y,col=group)) + geom_line() + scale_x_continuous(breaks=seq(1960,2020,4)) + scale_y_continuous(breaks=seq(0,13000000,1000000)) + labs(x="Years", y="Number of Crimes", title="Violent and Property Crimes By Year") + facet_grid(group~.)
+
+crime %>%
+  ggplot(aes(x=year, y=violent)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Violent Crimes by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+
+crime %>%
+  ggplot(aes(x=year, y=property)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Property Crimes by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+```
+
+```{r}
+crime %>%
+  ggplot(aes(x=year, y=murder)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Murder Crimes by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+
+crime %>%
+  ggplot(aes(x=year, y=forcible_rape)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Forcible Rape Crimes by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+
+crime %>%
+  ggplot(aes(x=year, y=robbery)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Robbery Crimes by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+
+crime %>%
+  ggplot(aes(x=year, y=aggravated_assault)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Aggravated Assault Crimes by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+
+crime %>%
+  ggplot(aes(x=year, y=burglary)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Burglary Crimes by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+
+crime %>%
+  ggplot(aes(x=year, y=larceny_theft)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Larceny Theft Crimes by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+
+crime %>%
+  ggplot(aes(x=year, y=vehicle_theft)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Vehicle Theft Crimes by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+
+```
+
+```{r}
+crime3 <- crime %>%
+  mutate(violent_no_mu = violent-murder) %>%
+  mutate(violent_no_rob = violent-robbery) %>%
+  mutate(violent_no_agg = violent-aggravated_assault) %>%
+  mutate(prop_no_bur = property-burglary) %>%
+  mutate(prop_no_lar = property-larceny_theft) %>%
+  mutate(prop_no_veh = property-vehicle_theft)
+
+crime3
+```
+
+```{r}
+crime3 %>%
+  ggplot(aes(x=year, y=prop_no_bur)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Property Crimes Without Burglary by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+```
+
+```{r}
+crime3 %>%
+  ggplot(aes(x=year, y=prop_no_lar)) + geom_line() + labs(x = "Year", y="Number of Crimes", title="Property Crimes Without Larceny Theft by Year") + scale_x_continuous(breaks=seq(1960,2020,4))
+```
+
